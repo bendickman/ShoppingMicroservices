@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
+using Catalog.Api.Data.Interfaces;
+using Catalog.Api.Data;
 
 namespace Catalog.Api
 {
@@ -31,6 +34,11 @@ namespace Catalog.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.Api", Version = "v1" });
             });
+
+            //ensure Mediatr picks up the handlers in separate assemblies, use any class in the given assembly
+            services.AddMediatR(typeof(Features.Product.GetProductById.GetProductByIdHandler).Assembly);
+
+            services.AddScoped<ICatalogContext, CatalogContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
